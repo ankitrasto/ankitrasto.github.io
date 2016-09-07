@@ -43,7 +43,7 @@ h6 {
 
 .intro-message {
     position: relative;
-    padding-top: 20%;
+    padding-top: 10%;
     padding-bottom: 20%;
 }
 
@@ -73,12 +73,14 @@ h6 {
     }
 
     ul.intro-social-buttons > li {
+        color: #ffffff;
         display: block;
         margin-bottom: 20px;
         padding: 0;
     }
 
     ul.intro-social-buttons > li:last-child {
+        color: #ffffff;
         margin-bottom: 0;
     }
 
@@ -129,16 +131,19 @@ h6 {
 }
 
 .banner ul {
+	color: #ffffff;
     margin-bottom: 0;
 }
 
 .banner-social-buttons {
+	color: #ffffff;
     float: right;
     margin-top: 0;
 }
 
 @media(max-width:1199px) {
     ul.banner-social-buttons {
+		color: #ffffff;
         float: left;
         margin-top: 15px;
     }
@@ -152,12 +157,15 @@ h6 {
     }
 
     ul.banner-social-buttons > li {
+        color: #ffffff;
         display: block;
         margin-bottom: 20px;
         padding: 0;
+    
     }
 
     ul.banner-social-buttons > li:last-child {
+        color: #ffffff;
         margin-bottom: 0;
     }
 }
