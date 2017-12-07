@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content=""> 
+
+    <title>Bare - Start Bootstrap Template</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <style>
+      body {
+        padding-top: 54px;
+      }
+      @media (min-width: 992px) {
+        body {
+          padding-top: 56px;
+        }
+      }
+
+    </style>
+
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">MD-Templates</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="soap.html">SOAP - Clinical Encounters</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="pex.html">Physical Exams
+                              <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Procedural Notes</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">In-Hospital Care</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-left">
+          <h1 class="mt-5">The Physical Exam</h1>
+          <p class="lead">MD-Templates</p>
+          <p>Use the Wizard Below to Generate a Complete Physical Exam</p>         
+           <div class="form-group" method="post">
+				<input type="checkbox" id="Appears" onchange="formValidate();">
+				<label for="Appears"> General Appearance</label>
+				
+				
+				<select class="form-control" id="VSList" name="VSList" onchange="formValidate();">
+					<option>Well, NAD. WOB WNL.</option>
+					<option>Well, Playful and Energetic. WOB WNL.</option>
+					<option>Tired, NAD. WOB WNL.</option>
+					<option>Unwell</option>
+				</select>
+
+			
+				<br>
+				
+				<input type="checkbox" id="Vitals" onchange="formValidate();">
+				<label for="Vitals">Vital Signs</label>
+				
+				<br>
+			   
+				<input type="checkbox" id="HEENT" onchange="formValidate();">
+				<label for="HEENT">Head and Neck</label>
+				
+				<br>
+			   
+				<input type="checkbox" id="CVS" onchange="formValidate();">
+				<label for="CVS">Cardiovascular</label>
+				
+				<br>
+			   
+				<input type="checkbox" id="RESP" onchange="formValidate();">
+				<label for="RESP">Respiratory</label>
+				
+				<br>			  			   
+			   
+				<input type="checkbox" id="NEURO" onchange="formValidate();">
+				<label for="NEURO">Neurological</label>
+				
+				<br>
+			  
+				<input type="checkbox" id="Volume" onchange="formValidate();">
+				<label for="Volume">Volume Assessment</label>
+				
+				<br>
+			   
+				<input type="checkbox" id="MSE" onchange="formValidate();">
+				<label for="MSE">Mental Status</label>
+				
+				<br>
+			   
+			 
+				<textarea class="form-control" rows="10" id="FinalText""></textarea>				
+		   </div> 
+
+          
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+   
+  </body>
+  
+  	<script type="text/javascript">
+	window.onload = formValidate();
+	
+	 var appears = "";
+	 var auxVitals = "";
+	 var resp = "";
+	 var heent = "";
+	 var cvs = "";
+	 var neuro = "";
+	 var volass = "";
+	 var mse = "";
+	 
+	 var finalText;
+	
+	 function formValidate(){
+				var GenAppChecked = document.getElementById("Appears").checked;
+				if(GenAppChecked){
+					document.getElementById("VSList").disabled = false;
+					appears = getTextValue(document.getElementById("VSList")) + "\n";
+				}else{
+					document.getElementById("VSList").disabled = true;
+					appears = "";
+				}
+		
+				var VSChecked = document.getElementById("Vitals").checked;
+				if(VSChecked){
+					auxVitals = "HR 78 regular, afebrile, BP 120/80 \n";
+				}else{
+					auxVitals = "";
+				}
+				
+				var HNChecked = document.getElementById("HEENT").checked;
+				if(HNChecked){
+					heent = "HEENT: TM N x 2, throat normal/no erythema or abscess, conjunctiva normal, normal lymph nodes.\n";
+				}else{
+					heent = "";
+				}
+				
+				var CVChecked = document.getElementById("CVS").checked;
+				if(CVChecked){
+					cvs = "CVS: N S1/S2 no M.\n";
+				}else{
+					cvs = "";
+				}
+				
+				if(document.getElementById("RESP").checked){
+					resp = "RESP: clear, AEEB no wheezes or crackles\n";
+				}else{
+					resp = "";
+				}
+				
+				if(document.getElementById("NEURO").checked){
+					neuro = "NEURO: PERL-A, full EOM. CN VII/XI/XII normal. No pronator drift, 5/5 grip+dorsiflexion+plantarflexion strength. Rhomberg's Negative, Gait normal, Finger-Nose normal.\n";
+				}else{
+					neuro = "";
+				}
+				
+				if(document.getElementById("Volume").checked){
+					volass = "VOLUME: minimal periph edema, JVP non-elevated, good cap refill. Appears euvolemic.\n";
+				}else{
+					volass = "";
+				}
+				
+				if(document.getElementById("MSE").checked){
+					mse = "Appears stated age and well groomed. Good eye contact and cooperative throughout encounter.\n Speech normal. Affect reactive/normal. Mood \"good\". No evidence of auditory/visual hallucinations or delusions. No suicidal/homicidal intent or ideation. Insight good, Judgment good.\n"
+				}else{
+					mse = "";
+				}
+				
+				
+				finalText = appears + auxVitals + heent + cvs + resp + neuro + volass + mse;
+				document.getElementById("FinalText").value = finalText;
+	 };
+	 
+	 function getTextValue(sel){
+		return sel.options[sel.selectedIndex].text;
+	 };
+	
+	</script>
+
+</html>

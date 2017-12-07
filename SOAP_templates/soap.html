@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content=""> 
+
+    <title>Bare - Start Bootstrap Template</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+
+    <!-- Custom styles for this template -->
+    <style>
+      body {
+        padding-top: 54px;
+      }
+      @media (min-width: 992px) {
+        body {
+          padding-top: 56px;
+        }
+      }
+
+    </style>
+
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">MD-Templates</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="soap.html">SOAP - Clinical Encounters</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="pex.html">Physical Exams
+                              <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Procedural Notes</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">In-Hospital Care</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-left">
+          <h1 class="mt-5">SOAP Notes for Common Encounters</h1>
+          <p class="lead">MD-Templates</p>
+          
+		  <div class="card text-left">
+			<div class="card-header">Final Note/Editing Area</div>
+			<div class="card-block text-left">
+				<div class="click2edit" id="finalNote">Final Note Text Will be Displayed Here</div>
+				<button id="edit" class="btn btn-primary" onclick="edit()" type="button">Edit</button>
+				<button id="save" class="btn btn-primary" onclick="save()" type="button">Save</button>
+			</div>
+		  
+		  </div>
+          
+          
+          
+          <p>Choose from the following clinical encounters to generate a default note template that you can further edit in the text field below.</p>         
+          
+          <br>
+          
+          <input type="text" class="form-control input-large" id="auxSearch" onkeyup="searcher()" placeholder="Search Encounters ...">
+        </div>
+        
+          <div class="col-lg-12 text-left" id="tableEntry">         </div>
+		
+        
+        
+      </div>     
+      
+    </div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap-select.js"></script>
+    <script src="vendor/papaparse/papaparse.min.js"></script>
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
+   
+  </body>
+   <body onload="parseFile()"> 
+  
+   <script>
+   
+   function parseFile(){	   
+	   Papa.parse("databases/SOAPNotes.csv", {
+		   download: true,
+		   delimiter: ";",
+		   complete: function(results){
+			   console.log(results.data);
+			   generateHTMLTable(results.data);
+		   }   
+	   });
+   };
+   
+   function generateHTMLTable(auxData){
+	   var table = "<table class=\"table table-hover\" id='csvTable'>";
+	   table += "<thead class='thead-inverse'> <th>Encounter Type (Keywords)</th> </thead>"
+	   
+	   for(i = 0; i < (auxData.length-1); i++){
+		   //table += "<tr class='clickable-row' onclick='populate('" + auxData[i][2] + ")'>";
+		   //table += "<tr class='clickable-row' onclick='populate(\""+ auxData[i][1] + "\")'>";
+		   //table += "<tr class='clickable-row' onclick='populate(\""+ (auxData[i][2].valueOf()).replace("\n", "\\") + "\")'>";
+		   table += "<tr class='clickable-row' onclick='populate(\""+ i + ".txt\")'>";
+		   //table +="<tr class='clickable-row'>"
+		   var row = auxData[i];
+		   table += "<td>" + auxData[i][0] + "\t(" + auxData[i][1]  + ")</td></tr>"
+		   
+	   }
+	   
+	  // document.insertAdjacentHTML('beforeend', table);
+	  
+	  document.getElementById('tableEntry').innerHTML = table;
+	
+   }
+   
+   function populate(auxText){
+	   var client = new XMLHttpRequest();
+	   client.open('GET', "databases/"+auxText);
+	   client.onreadystatechange = function(){
+			//alert(client.responseText);
+			$('.click2edit').summernote('code', (client.responseText).replace(/(\r\n|\n|\r)/gm, "<br>"));
+			//document.getElementById('finalNote').innerHTML = (client.responseText).replace('\n', "NEWLINE");
+	   }
+	   client.send();
+	   
+		
+		
+   }
+   
+   function populate2(auxText){	   
+		$('.click2edit').summernote('code', auxText);
+		
+   }
+   
+   function searcher(){
+	  // Declare variables
+	  var input, filter, table, tr, td, i;
+	  input = document.getElementById("auxSearch");
+	  filter = input.value.toUpperCase();
+	  table = document.getElementById("csvTable");
+	  tr = table.getElementsByTagName("tr");
+
+	  // Loop through all table rows, and hide those who don't match the search query
+	  for (i = 0; i < tr.length; i++) {
+		td = tr[i].getElementsByTagName("td")[0];
+		if (td) {
+		  if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+			tr[i].style.display = "";
+		  } else {
+			tr[i].style.display = "none";
+		  }
+		}
+	  }
+   }
+   
+   var edit = function() {
+	   $('.click2edit').summernote({focus: true});
+   };
+   
+   var save = function() {
+	   var markup = $('.click2edit').summernote('code');
+	   $('.click2edit').summernote('destroy');
+	};
+	
+	
+    
+    
+    
+   </script>
+</html>
